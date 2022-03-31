@@ -12,33 +12,26 @@ def condenseList():
 	check_dupl = {}
 
 	for guess in currentGuess:
-		print(f"Considering {currentWord[i]}")
-		if guess == "g":
-			print("green")
-			possibleList[:] = [x for x in possibleList if x[i] == currentWord[i]]
+		print(f"considering '{currentWord[i]}'")
 
+		# For last edge case of if there is a duplicate yellow letter
+		if guess == "g" or guess == "y":
 			if currentWord[i] in check_dupl:
 				new_entry = {currentWord[i]: check_dupl[currentWord[i]] + 1}
 			else:
 				new_entry = {currentWord[i]: 1}
 			check_dupl.update(new_entry)
 
+		if guess == "g":
+			possibleList[:] = [x for x in possibleList if x[i] == currentWord[i]]
+
 		elif guess == "y":
-			print("yellow")
 			# Remove any word with yellow letter in same place
 			possibleList[:] = [x for x in possibleList if x[i] != currentWord[i]]
 			# Remove any word that doesn't have the letter at all
 			possibleList[:] = [x for x in possibleList if currentWord[i] in x]
-			# For last edge case of if there is a duplicate yellow letter
-			if currentWord[i] in check_dupl:
-				new_entry = {currentWord[i]: check_dupl[currentWord[i]] + 1}
-			else:
-				new_entry = {currentWord[i]: 1}
-			check_dupl.update(new_entry)
 		else:
-			print("gray")
 			# Consider order in which letters was guessed in. If the letter was gray first before it was yellow, then that means it is not in the word at all
-			
 			# If gray letter is in the word, then only remove letter in the same place
 			if currentWord[i] in check_dupl:
 				possibleList[:] = [x for x in possibleList if x[i] != currentWord[i]]
@@ -47,19 +40,15 @@ def condenseList():
 				possibleList[:] = [x for x in possibleList if currentWord[i] not in x]
 			
 
-		print(f"possible items: {len(possibleList)}")
+		print(f"remaining entries: {len(possibleList)}")
 		i = i + 1
 	
-	# rand_word = "abase"
-	# print(rand_word.count("s") < check_dupl["s"])
-
-	# Final edge case of if there is a duplicate yellow letter	
+	# Final edge case of if there is a duplicate yellow-yellow or yellow-green letter	
 	for keys in check_dupl:
 		if check_dupl[keys] > 1:
 			for x in possibleList:
-				# print(f"{x}: {x.count(keys)}: {x.count(keys) >= check_dupl[keys]}")
 				possibleList[:] = [x for x in possibleList if x.count(keys) >= check_dupl[keys]]
-			print(f"possible items: {len(possibleList)}")
+			print(f"remaining entries: {len(possibleList)}")
 
 
 
@@ -67,6 +56,7 @@ def condenseList():
 
 	for item in possibleList:
 		print(item)
+	print("\n")
 
 
 word_found = False
@@ -75,15 +65,19 @@ while not word_found:
 	currentWord = input()
 	if currentWord == "exit".lower():
 		break;
-
 	while len(currentWord) != 5:
 		print("Sorry, that is not a valid 5-letter word. Please try again.")
 		currentWord = input()
 
 	print("Enter green=\"g\", yellow=\"y\", gray=\"gr\", for each of the five characters and separate by commas")
-
 	currentGuessInput = input()
-	currentGuess = list(currentGuessInput.split(","))
+	currentGuess = list(currentGuessInput.replace(" ", "").split(","))
+	while len(currentGuess) != 5:
+		print("Sorry, that is not a valid 5 element input")
+		currentGuessInput = input().strip()
+		currentGuess = list(currentGuessInput.replace(" ", "").split(","))
+
+	print("\n")	
 
 	condenseList()
 

@@ -12,9 +12,9 @@ def condenseList():
 	i = 0
 	check_dupl = {}
 
+	# Consider all green and yellow letters before gray in case green and gray are in the same guess and gray letter comes before green letter
+	# Ex. MERER with gr,g,gr,g,g with 'R' being gray in 3rd and then green in 5th
 	for guess in currentGuess:
-		# print(f"considering '{currentWord[i]}'")
-
 		# For last edge case of if there is a duplicate yellow letter
 		if guess == "g" or guess == "y":
 			if currentWord[i] in check_dupl:
@@ -31,8 +31,16 @@ def condenseList():
 			possibleList[:] = [x for x in possibleList if x[i] != currentWord[i]]
 			# Remove any word that doesn't have the letter at all
 			possibleList[:] = [x for x in possibleList if currentWord[i] in x]
-		else:
-			# Consider order in which letters was guessed in. If the letter was gray first before it was yellow, then that means it is not in the word at all
+
+		print(f"considering '{currentWord[i]}'")
+		print(f"remaining entries: {len(possibleList)}")
+		# print(possibleList)
+		i = i + 1
+	
+	i = 0
+	for guess in currentGuess:
+		if guess == "gr":
+			# Consider order in which letters was guessed in. If the letter was gray in a guess before a guess in which it was yellow, then that means it is not in the word at all
 			# If gray letter is in the word, then only remove letter in the same place
 			if currentWord[i] in check_dupl:
 				possibleList[:] = [x for x in possibleList if x[i] != currentWord[i]]
@@ -40,8 +48,8 @@ def condenseList():
 			else:
 				possibleList[:] = [x for x in possibleList if currentWord[i] not in x]
 			
-
-		# print(f"remaining entries: {len(possibleList)}")
+		print(f"considering '{currentWord[i]}'")
+		print(f"remaining entries: {len(possibleList)}")
 		i = i + 1
 	
 	# Final edge case of if there is a duplicate yellow-yellow or yellow-green letter	
@@ -56,6 +64,7 @@ def condenseList():
 	print("10 Best Answers:")
 
 	print(possibleList[:10])
+	# print(possibleList)
 	print("\n")
 
 
@@ -69,13 +78,13 @@ while not word_found:
 		print("Sorry, that is not a valid 5-letter word. Please try again.")
 		currentWord = input()
 
-	print("Enter green=\"g\", yellow=\"y\", gray=\"gr\", for each of the five characters and separate by commas")
+	print("Enter green=\"g\", yellow=\"y\", gray=\"gr\" for each of the five characters and separate by commas")
 	currentGuessInput = input()
-	currentGuess = list(currentGuessInput.replace(" ", "").split(","))
+	currentGuess = list(currentGuessInput.lower().replace(" ", "").split(","))
 	while len(currentGuess) != 5:
 		print("Sorry, that is not a valid 5 element input")
 		currentGuessInput = input().strip()
-		currentGuess = list(currentGuessInput.replace(" ", "").split(","))
+		currentGuess = list(currentGuessInput.lower().replace(" ", "").split(","))
 
 	print("\n")	
 

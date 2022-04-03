@@ -8,7 +8,7 @@ allWords = ["cigar","rebut","sissy","humph","awake","blush","focal","evade","nav
 # possibleList = sorted(allWords)
 possibleList = allWords
 
-def condenseList():
+def condenseList() -> bool:
 	i = 0
 	check_dupl = {}
 
@@ -32,14 +32,14 @@ def condenseList():
 			# Remove any word that doesn't have the letter at all
 			possibleList[:] = [x for x in possibleList if currentWord[i] in x]
 
-		print(f"considering '{currentWord[i]}'")
-		print(f"remaining entries: {len(possibleList)}")
+		# print(f"considering '{currentWord[i]}'")
+		# print(f"remaining entries: {len(possibleList)}")
 		# print(possibleList)
 		i = i + 1
 	
 	i = 0
 	for guess in currentGuess:
-		if guess == "gr":
+		if guess != "g" and guess != "y":
 			# Consider order in which letters was guessed in. If the letter was gray in a guess before a guess in which it was yellow, then that means it is not in the word at all
 			# If gray letter is in the word, then only remove letter in the same place
 			if currentWord[i] in check_dupl:
@@ -48,8 +48,8 @@ def condenseList():
 			else:
 				possibleList[:] = [x for x in possibleList if currentWord[i] not in x]
 			
-		print(f"considering '{currentWord[i]}'")
-		print(f"remaining entries: {len(possibleList)}")
+		# print(f"considering '{currentWord[i]}'")
+		# print(f"remaining entries: {len(possibleList)}")
 		i = i + 1
 	
 	# Final edge case of if there is a duplicate yellow-yellow or yellow-green letter	
@@ -64,8 +64,11 @@ def condenseList():
 	print("10 Best Answers:")
 
 	print(possibleList[:10])
-	# print(possibleList)
 	print("\n")
+	# print(possibleList)
+
+	# You may need to consider case where 0 elements are left in the list
+	return len(possibleList) == 1
 
 
 word_found = False
@@ -88,7 +91,9 @@ while not word_found:
 
 	print("\n")	
 
-	condenseList()
+	word_found = condenseList()
+	if word_found:
+		print(f"The word is {possibleList[0]}")
 
 
 

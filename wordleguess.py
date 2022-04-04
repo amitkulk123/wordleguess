@@ -93,19 +93,23 @@ def addToChart() -> String:
 		elif guess == "y":
 			wordle_chart += ("\033[93m" + currentWord[i].upper() + "\033[0m")
 		else:
-			wordle_chart += ("\033[91m" + currentWord[i].upper() + "\033[0m")
+			wordle_chart += currentWord[i].upper()
 		i = i + 1
 	
 	wordle_chart += "\n"
 
 	return wordle_chart
 
-word_found = False
-while not word_found:
-	print("Enter the word. Enter 'exit' to quit.")
+while True:
+	print("Enter a 5-letter word. Enter 'exit' to quit.")
 	currentWord = input()
 	if currentWord == "exit".lower():
 		break;
+	# Work on this later (play again functionality)
+	# if currentWord == "redo".lower():
+	# 	check_dupl = {}
+	# 	possibleList = allWords
+	# 	wordle_chart = ""
 	while len(currentWord) != 5:
 		print("Sorry, that is not a valid 5-letter word. Please try again.")
 		currentWord = input()
@@ -121,6 +125,7 @@ while not word_found:
 	word_found = condenseList()
 	if word_found:
 		print("The word is " + ("\033[92m" + possibleList[0] + "\033[0m"))
+		break
 
 
 

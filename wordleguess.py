@@ -69,14 +69,13 @@ def condenseList() -> bool:
 			for x in possibleList:
 				possibleList[:] = [x for x in possibleList if x.count(keys) >= check_dupl[keys]]
 			
-
-	print(f"Remaining possible entries: {len(possibleList)}")
-
-	print("10 Best Answers:")
+	if len(possibleList) > 10:
+		print(f"10 Best Answers (out of {len(allWords)} possibilities):")
+	else:
+		print(f"{len(possibleList)} Best Answers (out of {len(allWords)} possibilities):")
 
 	print(possibleList[:10])
 	print("\n")
-	# print(possibleList)
 
 	# You may need to consider case where 0 elements are left in the list
 	return len(possibleList) == 1

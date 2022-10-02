@@ -12,7 +12,7 @@ Then just put in your first guess and whether each letter was shown to be green,
 ## Examples
 Here's an example with the starting word of "SALET" and ending word of "TWINE":
 
-<img width="681" alt="Screen Shot 2022-10-02 at 1 10 41 PM" src="https://user-images.githubusercontent.com/9218849/193467223-40aae441-7c37-47ad-9273-f75197f8bc50.png">
+<img width="678" alt="Screen Shot 2022-10-02 at 1 27 59 PM" src="https://user-images.githubusercontent.com/9218849/193467637-80f668db-2912-40a9-ade1-c229fbd74071.png">
 
 As shown in the image above, instead of putting in one of the top 10 words as my guess, I guessed "write" instead. However, even if one of the top 10 suggested words aren't inputted, the algorithm will still remove cases from the list depending on which letter were green, yellow, or gray.
 
